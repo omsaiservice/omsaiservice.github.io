@@ -3,82 +3,278 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#121212">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>Om Sai Admin</title>
 <style>
-:root{--bg:#121212;--card:#1b1f27;--ink:#eef1f7;--muted:#aab3c5;--line:#343a47;--or:#ff6a00;color-scheme:dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.45}
-header{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;z-index:2}
-h1{margin:0;font-size:1.15rem}h1 span{color:var(--or)}
-main{max-width:560px;margin:0 auto;padding:16px}
-input{width:100%;min-height:48px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:#171b22;color:var(--ink);font:inherit}
-button,a.b{border:0;border-radius:99px;min-height:40px;padding:0 16px;font:inherit;font-weight:700;font-size:.85rem;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;background:#2a303c;color:var(--ink)}
-.p{background:var(--or);color:#fff}.g{background:#15803d}.r{background:#7f1d1d}.w{background:#25d366;color:#08331a}
-button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--or);outline-offset:2px}
-.tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}.tabs .on{background:var(--or)}
-.c{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px}
-.top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.top b{font-size:1.02rem}
-.price{color:var(--or);font-weight:800;white-space:nowrap}
-.m{color:var(--muted);font-size:.85rem;margin-top:4px}
-.st{display:inline-block;border-radius:99px;padding:3px 10px;font-size:.75rem;font-weight:800;margin-left:6px}
-.Pending{background:#5c4208;color:#ffd277}.Done{background:#12301e;color:#7ee2a0}.Cancelled{background:#3a1616;color:#ff9a92}
+:root{--bg:#121212;--card:#1c1c1e;--ink:#f1f3f8;--muted:#9aa3b5;--line:#33363e;--or:#ff6a00;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.4}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:12px 16px;display:flex;align-items:center;gap:12px}
+.logo{width:48px;height:48px;border-radius:14px;background:var(--or);display:grid;place-items:center;font-weight:900;font-size:1.2rem;flex:none}
+header h1{margin:0;font-size:1.15rem}header small{color:var(--muted)}header .sp{flex:1;min-width:0}
+main{max-width:600px;margin:0 auto;padding:16px}
+input,select,textarea{width:100%;min-height:46px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:#15161a;color:var(--ink);font:inherit}
+textarea{min-height:70px}
+button,a.b{border:1px solid var(--line);border-radius:99px;min-height:42px;padding:0 16px;font:inherit;font-weight:700;font-size:.85rem;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--card);color:var(--ink)}
+.or{background:var(--or);border-color:var(--or);color:#fff}.gr{background:#15803d;border-color:#15803d}.rd{background:#7f1d1d;border-color:#7f1d1d}.wa{background:#25d366;border-color:#25d366;color:#08331a}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--or);outline-offset:2px}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}.seg button{min-height:48px;font-size:.9rem}.seg .on{background:var(--or);border-color:var(--or);color:#fff}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.s{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:16px}
+.s small{display:block;color:var(--muted);font-weight:700;letter-spacing:.1em;font-size:.72rem}.s b{display:block;font-size:2rem;line-height:1.2;margin:4px 0}.s span{color:var(--muted);font-size:.85rem}
+.s.o{background:var(--or);border-color:var(--or)}.s.o small,.s.o span{color:#ffe3cf}.s.o b{font-size:1.7rem}
+.s.g b{color:#7ee2a0}.s.r b{color:#ffb020}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 8px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chips button{flex:none}.chips .on{background:var(--or);border-color:var(--or);color:#fff}
 .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.err{color:#ff8f86;font-size:.85rem;margin-top:6px;min-height:1.2em}.hide{display:none!important}
+.c{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px;margin-bottom:12px}
+.top{display:flex;justify-content:space-between;gap:8px}.top b{font-size:1.05rem}.pr{color:var(--or);font-weight:800;white-space:nowrap}
+.m{color:var(--muted);font-size:.85rem;margin-top:3px}
+.st{display:inline-block;border-radius:99px;padding:2px 10px;font-size:.72rem;font-weight:800;margin-left:6px}
+.Pending{background:#5c4208;color:#ffd277}.Done{background:#12301e;color:#7ee2a0}.Cancelled{background:#3a1616;color:#ff9a92}
+.pay{margin-top:8px;padding:8px 12px;border-radius:12px;background:#15161a;font-size:.85rem;display:flex;justify-content:space-between;gap:8px}
+.err{color:#ff8f86;font-size:.85rem;min-height:1.2em}.hide{display:none!important}
+.note{color:var(--muted);font-size:.8rem;text-align:center;margin:10px 0}
+dialog{width:min(560px,94vw);max-height:92vh;overflow:auto;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:22px;padding:18px}
+dialog::backdrop{background:rgba(0,0,0,.7)}
+dialog label{display:block;font-size:.8rem;font-weight:700;color:var(--muted);margin:10px 0 4px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 </style>
 </head>
 <body>
-<header><h1><span>Om Sai</span> Admin</h1><button id="out" class="hide">Logout</button></header>
+<header>
+ <div class="logo">OS</div>
+ <div class="sp"><h1>Om Sai Service</h1><small id="sub">Admin Dashboard</small></div>
+ <button class="or hide" id="addBtn" aria-label="Nayi booking jodein">＋</button>
+ <button class="hide" id="out" aria-label="Logout">⎋</button>
+</header>
 <main>
  <div id="login" style="display:grid;gap:10px;margin-top:30px">
   <b>Admin Password</b>
   <input id="pw" type="password" placeholder="Password likhein" autocomplete="current-password">
-  <button class="p" id="go" style="min-height:48px">Andar jayein</button>
+  <label style="display:flex;gap:8px;align-items:center;font-size:.85rem;color:var(--muted)"><input id="rem" type="checkbox" checked style="width:20px;min-height:20px"> Is phone par yaad rakho</label>
+  <button class="or" id="go" style="min-height:48px">Andar jayein</button>
   <div class="err" id="le"></div>
  </div>
+
  <div id="app" class="hide">
-  <div class="tabs" id="tabs"></div>
+  <div class="seg" id="seg"></div>
+  <div class="chips" id="per"></div>
+  <div class="note" id="perNote"></div>
+  <div class="sg" id="stats"></div>
+  <div class="row" style="margin-top:0">
+   <button id="wa">📤 WhatsApp Summary</button><button id="csv">⬇ Export CSV</button>
+  </div>
+  <div class="note" id="sync"></div>
+  <input id="q" placeholder="🔍 Naam, phone, area se khojein..." style="margin-bottom:10px">
+  <div class="chips" id="flt"></div>
   <div id="list"></div>
-  <div class="m" id="info"></div>
  </div>
 </main>
+
+<dialog id="dlg">
+ <h3 id="dt" style="margin:0 0 4px">Booking</h3>
+ <label for="f-name">Naam</label><input id="f-name">
+ <label for="f-phone">Phone</label><input id="f-phone" inputmode="numeric">
+ <label for="f-area">Area</label><input id="f-area" list="areas"><datalist id="areas"></datalist>
+ <div class="two">
+  <div><label for="f-purpose">Kahan</label><select id="f-purpose"></select></div>
+  <div><label for="f-bhk">BHK</label><select id="f-bhk"></select></div>
+ </div>
+ <div class="two">
+  <div><label for="f-date">Tareekh (aage ki bhi)</label><input id="f-date" type="date"></div>
+  <div><label for="f-slot">Time</label><select id="f-slot"></select></div>
+ </div>
+ <label for="f-address">Address</label><textarea id="f-address"></textarea>
+ <div class="two">
+  <div><label for="f-price">Price (₹)</label><input id="f-price" type="number" inputmode="numeric"></div>
+  <div><label for="f-paid">Mila hua paisa (₹)</label><input id="f-paid" type="number" inputmode="numeric"></div>
+ </div>
+ <label for="f-mode">Paisa kaise mila</label><select id="f-mode"><option value="">—</option><option>Cash</option><option>Online</option></select>
+ <label for="f-status">Status</label><select id="f-status"><option>Pending</option><option>Done</option><option>Cancelled</option></select>
+ <div class="err" id="fe"></div>
+ <div class="row"><button class="or" id="save">Save karein</button><button id="cancel">Band karein</button></div>
+</dialog>
+
+<dialog id="ddlg">
+ <h3 style="margin:0">✔ Kaam ho gaya</h3>
+ <div class="m" id="dn" style="margin-bottom:6px"></div>
+ <label for="d-price">Kaam ki price (₹)</label><input id="d-price" type="number" inputmode="numeric">
+ <label for="d-paid">Customer se kitna paisa mila (₹)</label><input id="d-paid" type="number" inputmode="numeric">
+ <label>Paisa kaise mila?</label><div class="row" id="d-mode"><button type="button" data-m="Cash">💵 Cash</button><button type="button" data-m="Online">📲 Online (UPI)</button></div>
+ <div class="m">Save karne par ye booking <b>History</b> me chali jayegi aur mila hua paisa total collection me judega.</div>
+ <div class="err" id="de"></div>
+ <div class="row"><button class="gr" id="d-save">History me jodein</button><button id="d-cancel">Band karein</button></div>
+</dialog>
+
 <script>
-// Yahan Apps Script ka Web App URL paste karein
-var ENDPOINT="https://script.google.com/macros/s/AKfycbz7wnl9j9CHz9m4wzBozdHoeH-7jA889j-FfwKTmHuez1zWG8BixxHdyVu7rdciI-vxSg/exec";
-var $=function(i){return document.getElementById(i)},pw="",rows=[],tab="Pending",timer;
+var ENDPOINT="https://script.google.com/macros/s/AKfycbwJ7CMeRZSrMQCshBmQtBL1G20GnI9pQCiKh__3111R2XNjExHuieIja9aQKCJ3lg7dhg/exec";
+var AREAS=["Nalasopara","Nalasopara East","Vasai","Virar","Naigaon","Bhayandar","Mira Road","Dahisar","Borivali","Kandivali","Malad","Goregaon","Jogeshwari","Andheri","Bandra","Worli","Prabhadevi","Dadar","Mumbai Central","Churchgate","Fort","Colaba"];
+var PURP=["Ghar / Home","Office / Shop","Society / Building","Factory / Warehouse","Hotel / Restaurant"];
+var SLOTS=["Morning 9-12","Afternoon 12-4","Evening 4-8"];
+var $=function(i){return document.getElementById(i)};
+var pw="",rows=[],flt="All",per="Sab",view="active",editing=null,timer;
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function ymd(d){var x=new Date(d);x.setMinutes(x.getMinutes()-x.getTimezoneOffset());return x.toISOString().slice(0,10)}
+function nd(v){v=String(v||"");if(/^\d{4}-\d{2}-\d{2}$/.test(v))return v;var d=new Date(v);return isNaN(d)?v:ymd(d)}
+function num(r){var s=String(r[7]||"");if(/appointment/i.test(s))return 0;var m=s.replace(/,/g,"").match(/\d+/);return m?+m[0]:0}
+function paid(r){return Number(r[13])||0}
+function home(r){return r[5]==="Ghar / Home"}
+function inr(n){return "₹"+Math.round(n).toLocaleString("en-IN")}
+function today(){return ymd(new Date())}
 function api(b){b.password=pw;return fetch(ENDPOINT,{method:"POST",body:JSON.stringify(b)}).then(function(r){return r.json()})}
+
 function load(){
- if(!ENDPOINT){$('le').textContent="ENDPOINT set nahi hai. File me Apps Script URL paste karein.";return Promise.resolve()}
  return api({action:"list"}).then(function(r){
-  if(!r.ok){logout();$('le').textContent=r.error==="password"?"Password galat hai.":"Kuch gadbad hui.";return}
-  rows=r.rows;$('login').classList.add("hide");$('app').classList.remove("hide");$('out').classList.remove("hide");draw();
-  $('info').textContent="Aakhri update: "+new Date().toLocaleTimeString("en-IN")+" • har 30 second me apne aap badlega";
- }).catch(function(){$('le').textContent="Internet ya URL me dikkat hai.";$('info').textContent="Update nahi ho paaya, internet check karein."});
+  if(!r.ok){logout();$('le').textContent=r.error==="password"?"Password galat hai.":"Kuch gadbad hui.";return false}
+  rows=r.rows;$('login').classList.add("hide");$('app').classList.remove("hide");$('addBtn').classList.remove("hide");$('out').classList.remove("hide");draw();
+  $('sync').textContent="● Auto-sync har 20 second • aakhri: "+new Date().toLocaleTimeString("en-IN");return true;
+ }).catch(function(){$('le').textContent="Internet ya link me dikkat hai.";$('sync').textContent="Update nahi ho paaya, internet check karein."});
 }
+function inPer(r){
+ if(per==="Sab")return true;var d=nd(r[8]),t=today();
+ if(per==="Aaj")return d===t;
+ if(per==="7 din"){var a=new Date();a.setDate(a.getDate()-6);return d>=ymd(a)&&d<=t}
+ if(per==="Is mahine")return d.slice(0,7)===t.slice(0,7);
+ return true;
+}
+function isDone(r){return r[12]==="Done"}function isCan(r){return r[12]==="Cancelled"}
+function isAct(r){return !isDone(r)&&!isCan(r)}
+function bal(r){return Math.max(num(r)-paid(r),0)}
+function find(id){return rows.filter(function(x){return String(x[0])===String(id)})[0]}
+function matches(r){
+ var q=$('q').value.trim().toLowerCase();
+ if(q&&[r[2],r[3],r[4],r[5],r[10]].join(" ").toLowerCase().indexOf(q)<0)return false;
+ if(flt==="All")return true;
+ if(flt==="Today")return nd(r[8])===today();
+ if(flt==="Home")return home(r);
+ if(flt==="Commercial")return !home(r);
+ if(flt==="Done")return isDone(r);
+ if(flt==="Cancelled")return isCan(r);
+ if(flt==="Baaki")return isDone(r)&&bal(r)>0;
+ return true;
+}
+function stat(t,v,s,c){return '<div class="s '+(c||"")+'"><small>'+t+'</small><b>'+v+'</b><span>'+s+'</span></div>'}
 function draw(){
- var n={All:rows.length,Pending:0,Done:0,Cancelled:0};rows.forEach(function(r){if(n[r[12]]!=null)n[r[12]]++});
- $('tabs').innerHTML=["Pending","Done","Cancelled","All"].map(function(t){return '<button data-t="'+t+'" class="'+(t===tab?"on":"")+'">'+t+' ('+n[t]+')</button>'}).join("");
- var l=rows.filter(function(r){return tab==="All"||r[12]===tab});
- $('list').innerHTML=l.length?l.map(function(r){
-  var ph=String(r[3]).replace(/\D/g,"").slice(-10),loc=String(r[11]||""),t=new Date(r[1]);
-  return '<div class="c"><div class="top"><div><b>'+esc(r[2])+'</b><span class="st '+esc(r[12])+'">'+esc(r[12])+'</span></div><div class="price">'+esc(r[7])+'</div></div>'
-  +'<div class="m">'+esc(r[5])+(r[6]&&r[6]!=="N/A"?" • "+esc(r[6]):"")+" • "+esc(r[4])+'</div>'
-  +'<div class="m">📅 '+esc(r[8])+" • "+esc(r[9])+'</div>'
-  +(r[10]?'<div class="m">🏠 '+esc(r[10])+'</div>':'')
-  +'<div class="m">Booking: '+(isNaN(t)?"":t.toLocaleString("en-IN"))+'</div>'
-  +'<div class="row"><a class="b p" href="tel:'+ph+'">📞 Call</a><a class="b w" target="_blank" rel="noopener" href="https://wa.me/91'+ph+'">💬 WhatsApp</a>'
-  +(/^https?:\/\//.test(loc)?'<a class="b" target="_blank" rel="noopener" href="'+esc(loc)+'">📍 Map</a>':'')+'</div>'
-  +'<div class="row">'+(r[12]!=="Done"?'<button class="g" data-s="Done" data-id="'+esc(r[0])+'">✔ Done</button>':'')+(r[12]!=="Cancelled"?'<button class="r" data-s="Cancelled" data-id="'+esc(r[0])+'">✖ Cancel</button>':'')+(r[12]!=="Pending"?'<button data-s="Pending" data-id="'+esc(r[0])+'">↩ Pending</button>':'')+'</div></div>'
- }).join(""):'<div class="m">Is section me abhi koi booking nahi.</div>';
+ var act=rows.filter(isAct),hist=rows.filter(function(r){return !isAct(r)}),base,st;
+ $('sub').textContent="Admin Dashboard • "+act.length+" chalu • "+hist.length+" history";
+ $('seg').innerHTML='<button data-v="active" class="'+(view==="active"?"on":"")+'">📋 Chalu ('+act.length+')</button><button data-v="history" class="'+(view==="history"?"on":"")+'">✅ History ('+hist.length+')</button>';
+ if(view==="active"){
+  base=act;$('per').innerHTML="";$('perNote').textContent="";
+  var td=today(),exp=0;act.forEach(function(r){exp+=num(r)});
+  st=stat('📋 CHALU',act.length,"kaam baaki")+stat('🕒 TODAY',act.filter(function(r){return nd(r[8])===td}).length,td)+stat('🏠 HOME',act.filter(home).length,"Ghar bookings")+stat('🏢 COMMERCIAL',act.filter(function(r){return !home(r)}).length,"Offices &amp; more")+stat('APPOINTMENT',act.filter(function(r){return num(r)===0}).length,"To visit")+stat('₹ AANE WALA PAISA',inr(exp),"Kaam hone par",'o');
+ }else{
+  base=hist.filter(inPer);
+  $('per').innerHTML=["Sab","Aaj","7 din","Is mahine"].map(function(p){return '<button data-p="'+p+'" class="'+(p===per?"on":"")+'">'+p+'</button>'}).join("");
+  var dn=base.filter(isDone),bill=0,got=0,bl=0,cash=0,onl=0,days={};
+  dn.forEach(function(r){bill+=num(r);got+=paid(r);bl+=bal(r);days[nd(r[8])]=1;if(r[14]==="Cash")cash+=paid(r);if(r[14]==="Online")onl+=paid(r)});
+  var nDays=Object.keys(days).length;
+  $('perNote').textContent=dn.length+" kaam hue • "+nDays+" din ka kaam";
+  st=stat('✅ KAAM HUE',dn.length,nDays+" din")+stat('🧾 TOTAL BILL',inr(bill),"Kaam ki kul rakam")+stat('💰 PAISA MILA',inr(got),"Total collection",'o')+stat('⏳ BAAKI',inr(bl),"Abhi milna hai",'r')+stat('💵 CASH',inr(cash),"Naqad mila")+stat('📲 ONLINE',inr(onl),"UPI / bank se mila")+stat('🏠 HOME',dn.filter(home).length,"Ghar")+stat('🏢 COMMERCIAL',dn.filter(function(r){return !home(r)}).length,"Offices &amp; more");
+ }
+ $('stats').innerHTML=st;
+ var fl=view==="active"?["All","Today","Home","Commercial"]:["All","Done","Cancelled","Baaki","Home","Commercial"];
+ $('flt').innerHTML=fl.map(function(f){return '<button data-f="'+f+'" class="'+(f===flt?"on":"")+'">'+f+'</button>'}).join("");
+ var l=base.filter(matches).sort(function(a,b){var x=nd(a[8]),y=nd(b[8]);return view==="active"?(x>y?1:-1):(x<y?1:-1)});
+ $('list').innerHTML=l.length?l.map(card).join(""):'<div class="note">'+(view==="active"?"Koi chalu booking nahi.":"History me abhi kuch nahi.")+'</div>';
 }
-$('tabs').addEventListener("click",function(e){var t=e.target.dataset.t;if(t){tab=t;draw()}});
+function card(r){
+ var ph=String(r[3]).replace(/\D/g,"").slice(-10),loc=String(r[11]||""),p=num(r),g=paid(r),id=esc(r[0]),a=isAct(r),dn=isDone(r);
+ return '<div class="c"><div class="top"><div><b>'+esc(r[2])+'</b><span class="st '+esc(a?"Pending":r[12])+'">'+esc(a?"Pending":r[12])+'</span></div><div class="pr">'+esc(p?inr(p):r[7])+'</div></div>'
+ +'<div class="m">'+esc(r[5])+(r[6]&&r[6]!=="N/A"?" • "+esc(r[6]):"")+" • "+esc(r[4])+'</div>'
+ +'<div class="m">📅 '+esc(nd(r[8]))+" • "+esc(r[9])+'</div>'
+ +(r[10]?'<div class="m">🏠 '+esc(r[10])+'</div>':'')
+ +((dn||g)&&!isCan(r)?'<div class="pay"><span>Mila: <b>'+inr(g)+'</b>'+(r[14]?' ('+esc(r[14])+')':'')+'</span><span>Baaki: <b>'+inr(bal(r))+'</b></span></div>':'')
+ +'<div class="row"><a class="b or" href="tel:'+ph+'">📞 Call</a><a class="b wa" target="_blank" rel="noopener" href="https://wa.me/91'+ph+'">💬 WhatsApp</a>'
+ +(/^https?:\/\//.test(loc)?'<a class="b" target="_blank" rel="noopener" href="'+esc(loc)+'">📍 Map</a>':'')+'</div>'
+ +'<div class="row"><button data-e="'+id+'">✏️ Edit / Schedule</button>'
+ +(a?'<button class="gr" data-d="'+id+'">✔ Kaam ho gaya</button><button class="rd" data-s="Cancelled" data-id="'+id+'">✖ Cancel</button>':'')
+ +(dn&&bal(r)>0?'<button class="or" data-d="'+id+'">💰 Baaki paisa mila</button>':'')
+ +(!a?'<button data-s="Pending" data-id="'+id+'">↩ Wapas chalu</button>':'')+'</div></div>';
+}
+$('seg').onclick=function(e){var v=e.target.dataset.v;if(v){view=v;flt="All";draw()}};
+$('per').onclick=function(e){var p=e.target.dataset.p;if(p){per=p;draw()}};
+$('flt').onclick=function(e){var f=e.target.dataset.f;if(f){flt=f;draw()}};
+$('q').addEventListener("input",draw);
 $('list').addEventListener("click",function(e){
- var b=e.target.closest("button[data-s]");if(!b)return;
- b.disabled=true;api({action:"status",id:b.dataset.id,status:b.dataset.s}).then(load).catch(function(){b.disabled=false;$('info').textContent="Status badal nahi paaya."});
+ var b=e.target.closest("button");if(!b)return;
+ if(b.dataset.e){openEdit(b.dataset.e);return}
+ if(b.dataset.d){openDone(b.dataset.d);return}
+ if(b.dataset.s){
+  if(b.dataset.s==="Cancelled"&&!b.dataset.sure){b.dataset.sure="1";b.textContent="Pakka cancel? (History me rahegi)";setTimeout(function(){b.dataset.sure="";b.textContent="✖ Cancel"},4000);return}
+  b.disabled=true;api({action:"status",id:b.dataset.id,status:b.dataset.s}).then(load).catch(function(){b.disabled=false});
+ }
 });
-function login(){pw=$('pw').value;if(!pw)return;$('le').textContent="";try{sessionStorage.setItem("omsai_pw",pw)}catch(e){}load().then(function(){clearInterval(timer);timer=setInterval(load,30000)})}
-function logout(){pw="";clearInterval(timer);try{sessionStorage.removeItem("omsai_pw")}catch(e){}$('app').classList.add("hide");$('out').classList.add("hide");$('login').classList.remove("hide");$('pw').value=""}
+// Kaam ho gaya
+var dId=null;
+function openDone(id){var r=find(id);dId=String(r[0]);$('dn').textContent=r[2]+" • "+r[4]+" • "+nd(r[8]);$('d-price').value=num(r)||"";$('d-paid').value=paid(r)||num(r)||"";setMode(r[14]||"");$('de').textContent="";$('ddlg').showModal()}
+var dMode="";
+function setMode(m){dMode=m;Array.prototype.forEach.call($('d-mode').children,function(x){x.classList.toggle("or",x.dataset.m===m)})}
+$('d-mode').onclick=function(e){var m=e.target.dataset.m;if(m)setMode(m)};
+$('d-cancel').onclick=function(){$('ddlg').close()};
+$('d-save').onclick=function(){
+ var p=Number($('d-price').value)||0,g=Number($('d-paid').value)||0;
+ if(p<=0){$('de').textContent="Kaam ki price likhein.";return}
+ if(g<0||g>p){$('de').textContent="Mila hua paisa 0 se price ke beech me hona chahiye.";return}
+ if(g>0&&!dMode){$('de').textContent="Paisa kaise mila, Cash ya Online chunein.";return}
+ var b=$('d-save');b.disabled=true;
+ api({action:"update",id:dId,fields:{price:"₹"+p,paid:g,status:"Done",mode:g>0?dMode:""}}).then(function(r){b.disabled=false;if(r.ok){$('ddlg').close();load()}else $('de').textContent="Save nahi hua, dobara try karein."}).catch(function(){b.disabled=false;$('de').textContent="Internet check karein."});
+};
+// Edit / Add
+function fill(sel,arr){$(sel).innerHTML=arr.map(function(v){return '<option>'+esc(v)+'</option>'}).join("")}
+fill('f-purpose',PURP);fill('f-bhk',["N/A","1RK","1BHK","2BHK","3BHK"]);fill('f-slot',SLOTS);
+$('areas').innerHTML=AREAS.map(function(a){return '<option value="'+a+'">'}).join("");
+function openEdit(id){
+ var r=id?rows.filter(function(x){return String(x[0])===String(id)})[0]:null;editing=r?String(r[0]):null;
+ $('dt').textContent=r?"Booking badlein / aage ki date lagayein":"Nayi booking";
+ $('f-name').value=r?r[2]:"";$('f-phone').value=r?String(r[3]).replace(/\D/g,"").slice(-10):"";
+ $('f-area').value=r?r[4]:"";$('f-purpose').value=r?r[5]:PURP[0];$('f-bhk').value=r?r[6]:"2BHK";
+ $('f-date').value=r?nd(r[8]):today();$('f-slot').value=r?r[9]:SLOTS[0];$('f-address').value=r?r[10]:"";
+ $('f-price').value=r&&num(r)?num(r):"";$('f-paid').value=r?paid(r):0;$('f-status').value=r?r[12]:"Pending";$('f-mode').value=r?(r[14]||""):"";
+$('fe').textContent="";$('dlg').showModal();
+}
+$('addBtn').onclick=function(){openEdit(null)};
+$('cancel').onclick=function(){$('dlg').close()};
+$('save').onclick=function(){
+ var n=$('f-name').value.trim(),ph=$('f-phone').value.replace(/\D/g,"").slice(-10);
+ if(n.length<2){$('fe').textContent="Naam likhein.";return}
+ if(!/^[6-9]\d{9}$/.test(ph)){$('fe').textContent="10 ank ka sahi phone likhein.";return}
+ if(!$('f-area').value.trim()){$('fe').textContent="Area likhein.";return}
+ var orig=editing?rows.filter(function(x){return String(x[0])===editing})[0]:null,pv=$('f-price').value.trim();
+ var price=pv?"₹"+pv:(orig&&!num(orig)?orig[7]:"Appointment - On Inspection");
+ var f={name:n,phone:ph,area:$('f-area').value.trim(),purpose:$('f-purpose').value,bhk:$('f-bhk').value,price:price,date:$('f-date').value,slot:$('f-slot').value,address:$('f-address').value.trim(),status:$('f-status').value,paid:Number($('f-paid').value)||0,mode:$('f-mode').value};
+ var b=$('save');b.disabled=true;
+ var req=editing?{action:"update",id:editing,fields:f}:{action:"adminAdd",id:Date.now().toString(),name:f.name,phone:f.phone,area:f.area,purpose:f.purpose,bhk:f.bhk,price:f.price,date:f.date,slot:f.slot,address:f.address,location:"",status:f.status,paid:f.paid,mode:f.mode};
+ api(req).then(function(r){b.disabled=false;if(r.ok){$('dlg').close();load()}else $('fe').textContent="Save nahi hua, dobara try karein."}).catch(function(){b.disabled=false;$('fe').textContent="Internet check karein."});
+};
+
+// Export
+function curList(){return (view==="active"?rows.filter(isAct):rows.filter(function(r){return !isAct(r)}).filter(inPer)).filter(matches)}
+$('wa').onclick=function(){
+ var l=curList();if(!l.length)return;
+ var t="*Om Sai Service - Booking Summary*\n"+(view==="active"?"Chalu":"History "+per)+" • "+l.length+" booking\n\n"+l.map(function(r,i){return (i+1)+". "+r[2]+" ("+String(r[3]).replace(/\D/g,"").slice(-10)+")\n   "+r[4]+" • "+nd(r[8])+" "+r[9]+" • "+(num(r)?inr(num(r)):"Appointment")+" • "+r[12]}).join("\n");
+ window.open("https://wa.me/?text="+encodeURIComponent(t),"_blank","noopener");
+};
+$('csv').onclick=function(){
+ var l=curList(),h=["Naam","Phone","Area","Kahan","BHK","Price","Tareekh","Time","Address","Status","Mila hua","Kaise mila"];
+ var c=[h].concat(l.map(function(r){return [r[2],String(r[3]).replace(/\D/g,"").slice(-10),r[4],r[5],r[6],num(r)||r[7],nd(r[8]),r[9],r[10],r[12],paid(r),r[14]||""]}));
+ var s="\ufeff"+c.map(function(a){return a.map(function(v){return '"'+String(v==null?"":v).replace(/"/g,'""')+'"'}).join(",")}).join("\n");
+ var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([s],{type:"text/csv"}));a.download="om-sai-bookings-"+today()+".csv";document.body.appendChild(a);a.click();a.remove();
+};
+
+// Login
+function login(){
+ pw=$('pw').value;if(!pw)return;$('le').textContent="";
+ load().then(function(ok){if(!ok)return;try{if($('rem').checked)localStorage.setItem("omsai_pw",pw);else localStorage.removeItem("omsai_pw")}catch(e){}
+  clearInterval(timer);timer=setInterval(function(){if(!document.hidden&&!$('dlg').open)load()},20000)});
+}
+function logout(){pw="";clearInterval(timer);try{localStorage.removeItem("omsai_pw")}catch(e){}$('app').classList.add("hide");$('addBtn').classList.add("hide");$('out').classList.add("hide");$('login').classList.remove("hide");$('pw').value=""}
 $('go').onclick=login;$('pw').addEventListener("keydown",function(e){if(e.key==="Enter")login()});$('out').onclick=logout;
-try{var sp=sessionStorage.getItem("omsai_pw");if(sp){$('pw').value=sp;login()}}catch(e){}
+document.addEventListener("visibilitychange",function(){if(!document.hidden&&pw)load()});
+try{var sp=localStorage.getItem("omsai_pw");if(sp){$('pw').value=sp;login()}}catch(e){}
+try{if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js")}catch(e){}
 </script>
 </body>
 </html>
