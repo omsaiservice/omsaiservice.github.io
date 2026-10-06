@@ -37,6 +37,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .Pending{background:#5c4208;color:#ffd277}.Done{background:#12301e;color:#7ee2a0}.Cancelled{background:#3a1616;color:#ff9a92}
 .pay{margin-top:8px;padding:8px 12px;border-radius:12px;background:#15161a;font-size:.85rem;display:flex;justify-content:space-between;gap:8px}
 .err{color:#ff8f86;font-size:.85rem;min-height:1.2em}.hide{display:none!important}
+#toast{position:fixed;left:12px;right:12px;top:calc(12px + env(safe-area-inset-top,0px));z-index:20;background:#15803d;color:#fff;border-radius:14px;padding:14px 16px;font-weight:800;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.6)}
 .note{color:var(--muted);font-size:.8rem;text-align:center;margin:10px 0}
 dialog{width:min(560px,94vw);max-height:92vh;overflow:auto;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:22px;padding:18px}
 dialog::backdrop{background:rgba(0,0,0,.7)}
@@ -48,10 +49,13 @@ dialog label{display:block;font-size:.8rem;font-weight:700;color:var(--muted);ma
 <header>
  <div class="logo">OS</div>
  <div class="sp"><h1>Om Sai Service</h1><small id="sub">Admin Dashboard</small></div>
+ <button class="hide" id="bell" aria-label="Notification chalu karein">🔔</button>
  <button class="or hide" id="addBtn" aria-label="Nayi booking jodein">＋</button>
  <button class="hide" id="out" aria-label="Logout">⎋</button>
 </header>
+<div id="toast" class="hide" role="status"></div>
 <main>
+ <button class="or hide" id="inst" style="width:100%;margin-bottom:10px;min-height:48px">📲 App install karein (home screen par)</button>
  <div id="login" style="display:grid;gap:10px;margin-top:30px">
   <b>Admin Password</b>
   <input id="pw" type="password" placeholder="Password likhein" autocomplete="current-password">
@@ -111,7 +115,7 @@ dialog label{display:block;font-size:.8rem;font-weight:700;color:var(--muted);ma
 </dialog>
 
 <script>
-var ENDPOINT="https://script.google.com/macros/s/AKfycbwJ7CMeRZSrMQCshBmQtBL1G20GnI9pQCiKh__3111R2XNjExHuieIja9aQKCJ3lg7dhg/exec";
+var ENDPOINT="https://script.google.com/macros/s/AKfycbyZcWHW2mFlbnz83nJvG9z5DZO8QcGRl9OYk2yQKsu8g7TNlR6VN2mKjbNooYlUaINBFw/exec";
 var AREAS=["Nalasopara","Nalasopara East","Vasai","Virar","Naigaon","Bhayandar","Mira Road","Dahisar","Borivali","Kandivali","Malad","Goregaon","Jogeshwari","Andheri","Bandra","Worli","Prabhadevi","Dadar","Mumbai Central","Churchgate","Fort","Colaba"];
 var PURP=["Ghar / Home","Office / Shop","Society / Building","Factory / Warehouse","Hotel / Restaurant"];
 var SLOTS=["Morning 9-12","Afternoon 12-4","Evening 4-8"];
@@ -127,12 +131,36 @@ function inr(n){return "₹"+Math.round(n).toLocaleString("en-IN")}
 function today(){return ymd(new Date())}
 function api(b){b.password=pw;return fetch(ENDPOINT,{method:"POST",body:JSON.stringify(b)}).then(function(r){return r.json()})}
 
+var known=null,inflight=false,tt;
+function ids(a){var o={};a.forEach(function(r){o[String(r[0])]=1});return o}
+function saveCache(){try{localStorage.setItem("omsai_cache",JSON.stringify(rows))}catch(e){}}
+function loadCache(){try{var c=JSON.parse(localStorage.getItem("omsai_cache")||"null");return Array.isArray(c)?c:null}catch(e){return null}}
+function showApp(){$('login').classList.add("hide");$('app').classList.remove("hide");$('addBtn').classList.remove("hide");$('out').classList.remove("hide");bellState()}
+function toast(m){var t=$('toast');t.textContent=m;t.classList.remove("hide");clearTimeout(tt);tt=setTimeout(function(){t.classList.add("hide")},7000)}
+function beep(){try{var A=window.AudioContext||window.webkitAudioContext,a=new A(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=880;g.gain.value=.2;o.start();setTimeout(function(){o.stop();a.close()},400)}catch(e){}}
+function notifyNew(list){
+ var n=list.length,r=list[0];
+ toast("🆕 "+n+" nayi booking aayi: "+r[2]+" ("+r[4]+")");
+ try{if(navigator.vibrate)navigator.vibrate([250,120,250])}catch(e){}
+ beep();
+ try{if("Notification" in window&&Notification.permission==="granted"&&navigator.serviceWorker){navigator.serviceWorker.ready.then(function(reg){reg.showNotification("Om Sai Service",{body:n+" nayi booking: "+r[2]+" ("+r[4]+")",icon:"icon-192.png",badge:"icon-192.png",tag:"newbooking",renotify:true,vibrate:[250,120,250]})})}}catch(e){}
+}
+function bellState(){var ok="Notification" in window;$('bell').classList.toggle("hide",!ok||Notification.permission==="granted")}
+$('bell').onclick=function(){try{Notification.requestPermission().then(function(p){bellState();toast(p==="granted"?"Notification chalu ho gaya ✔":"Notification band hai. Chrome settings me Allow karein.")})}catch(e){}};
 function load(){
+ inflight=true;
  return api({action:"list"}).then(function(r){
-  if(!r.ok){logout();$('le').textContent=r.error==="password"?"Password galat hai.":"Kuch gadbad hui.";return false}
-  rows=r.rows;$('login').classList.add("hide");$('app').classList.remove("hide");$('addBtn').classList.remove("hide");$('out').classList.remove("hide");draw();
+  inflight=false;
+  if(!r.ok){
+   if(r.error==="password"){logout();$('le').textContent="Password galat hai."}
+   else $('sync').textContent="Server ne abhi jawab nahi diya, thodi der me dobara koshish hogi.";
+   return false;
+  }
+  var fresh=known?r.rows.filter(function(x){return !known[String(x[0])]&&!isDone(x)&&!isCan(x)}):[];
+  rows=r.rows;known=ids(rows);saveCache();showApp();draw();
+  if(fresh.length)notifyNew(fresh);
   $('sync').textContent="● Auto-sync har 20 second • aakhri: "+new Date().toLocaleTimeString("en-IN");return true;
- }).catch(function(){$('le').textContent="Internet ya link me dikkat hai.";$('sync').textContent="Update nahi ho paaya, internet check karein."});
+ }).catch(function(){inflight=false;$('le').textContent="Internet ya link me dikkat hai.";$('sync').textContent="Update nahi ho paaya, internet check karein."});
 }
 function inPer(r){
  if(per==="Sab")return true;var d=nd(r[8]),t=today();
@@ -205,7 +233,8 @@ $('list').addEventListener("click",function(e){
  if(b.dataset.d){openDone(b.dataset.d);return}
  if(b.dataset.s){
   if(b.dataset.s==="Cancelled"&&!b.dataset.sure){b.dataset.sure="1";b.textContent="Pakka cancel? (History me rahegi)";setTimeout(function(){b.dataset.sure="";b.textContent="✖ Cancel"},4000);return}
-  b.disabled=true;api({action:"status",id:b.dataset.id,status:b.dataset.s}).then(load).catch(function(){b.disabled=false});
+  var rr=find(b.dataset.id);if(rr){rr[12]=b.dataset.s;saveCache();draw()}
+  api({action:"status",id:b.dataset.id,status:b.dataset.s}).then(load).catch(load);
  }
 });
 // Kaam ho gaya
@@ -220,8 +249,9 @@ $('d-save').onclick=function(){
  if(p<=0){$('de').textContent="Kaam ki price likhein.";return}
  if(g<0||g>p){$('de').textContent="Mila hua paisa 0 se price ke beech me hona chahiye.";return}
  if(g>0&&!dMode){$('de').textContent="Paisa kaise mila, Cash ya Online chunein.";return}
- var b=$('d-save');b.disabled=true;
- api({action:"update",id:dId,fields:{price:"₹"+p,paid:g,status:"Done",mode:g>0?dMode:""}}).then(function(r){b.disabled=false;if(r.ok){$('ddlg').close();load()}else $('de').textContent="Save nahi hua, dobara try karein."}).catch(function(){b.disabled=false;$('de').textContent="Internet check karein."});
+ var rr=find(dId);if(rr){rr[7]="₹"+p;rr[13]=g;rr[14]=g>0?dMode:"";rr[12]="Done";saveCache()}
+ $('ddlg').close();draw();toast("✔ History me jud gaya");
+ api({action:"update",id:dId,fields:{price:"₹"+p,paid:g,status:"Done",mode:g>0?dMode:""}}).then(load).catch(load);
 };
 // Edit / Add
 function fill(sel,arr){$(sel).innerHTML=arr.map(function(v){return '<option>'+esc(v)+'</option>'}).join("")}
@@ -266,15 +296,29 @@ $('csv').onclick=function(){
 };
 
 // Login
+function startTimer(){clearInterval(timer);timer=setInterval(function(){if(!document.hidden&&!inflight&&!$('dlg').open&&!$('ddlg').open)load()},20000)}
 function login(){
  pw=$('pw').value;if(!pw)return;$('le').textContent="";
- load().then(function(ok){if(!ok)return;try{if($('rem').checked)localStorage.setItem("omsai_pw",pw);else localStorage.removeItem("omsai_pw")}catch(e){}
-  clearInterval(timer);timer=setInterval(function(){if(!document.hidden&&!$('dlg').open)load()},20000)});
+ load().then(function(ok){if(!ok)return;try{if($('rem').checked)localStorage.setItem("omsai_pw",pw);else localStorage.removeItem("omsai_pw")}catch(e){}startTimer()});
 }
-function logout(){pw="";clearInterval(timer);try{localStorage.removeItem("omsai_pw")}catch(e){}$('app').classList.add("hide");$('addBtn').classList.add("hide");$('out').classList.add("hide");$('login').classList.remove("hide");$('pw').value=""}
+function logout(){pw="";clearInterval(timer);known=null;try{localStorage.removeItem("omsai_pw");localStorage.removeItem("omsai_cache")}catch(e){}$('app').classList.add("hide");$('addBtn').classList.add("hide");$('bell').classList.add("hide");$('out').classList.add("hide");$('login').classList.remove("hide");$('pw').value=""}
 $('go').onclick=login;$('pw').addEventListener("keydown",function(e){if(e.key==="Enter")login()});$('out').onclick=logout;
-document.addEventListener("visibilitychange",function(){if(!document.hidden&&pw)load()});
-try{var sp=localStorage.getItem("omsai_pw");if(sp){$('pw').value=sp;login()}}catch(e){}
+document.addEventListener("visibilitychange",function(){if(!document.hidden&&pw&&!inflight)load()});
+// App install
+var dip=null;
+window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dip=e;if(!(window.matchMedia&&matchMedia("(display-mode: standalone)").matches))$('inst').classList.remove("hide")});
+window.addEventListener("appinstalled",function(){$('inst').classList.add("hide");toast("App install ho gaya ✔")});
+$('inst').onclick=function(){if(dip){dip.prompt();dip=null;$('inst').classList.add("hide")}};
+// Startup: pehle purana data turant dikhao, phir naya laao
+try{
+ var sp=localStorage.getItem("omsai_pw");
+ if(sp){
+  pw=sp;$('pw').value=sp;
+  var c=loadCache();
+  if(c){rows=c;known=ids(c);showApp();draw();$('sync').textContent="Naya data aa raha hai..."}
+  load().then(function(ok){if(ok)startTimer()});
+ }
+}catch(e){}
 try{if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js")}catch(e){}
 </script>
 </body>
