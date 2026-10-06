@@ -162,10 +162,11 @@ var P_MUM={"1RK":1499,"1BHK":1999,"2BHK":2499,"3BHK":2799};
 var P_3={"Bhayandar":2799,"Mira Road":2799,"Dahisar":2799,"Borivali":3299,"Kandivali":3299,"Malad":3299,"Goregaon":3299,"Jogeshwari":3299,"Andheri":3299,"Bandra":3999,"Worli":3999,"Prabhadevi":3999,"Dadar":3999,"Mumbai Central":3999,"Churchgate":"4499–4999","Fort":"4499–4999","Colaba":"4499–4999"};
 var P_2={"Bhayandar":2499,"Mira Road":2499,"Dahisar":2499,"Borivali":2799,"Kandivali":2799,"Malad":2799,"Goregaon":2799,"Jogeshwari":2799,"Andheri":2799,"Bandra":3299,"Worli":3299,"Prabhadevi":3299,"Dadar":3299,"Mumbai Central":3299,"Churchgate":"3499–3999","Fort":"3499–3999","Colaba":"3499–3999"};
 var P_1={"Andheri":1999,"Jogeshwari":1999,"Goregaon":1999,"Bandra":2199,"Worli":2199,"Prabhadevi":2199,"Dadar":2199,"Mumbai Central":2199,"Churchgate":2499,"Colaba":2499,"Fort":2499};
+var P_RK={"Bhayandar":1399,"Mira Road":1399,"Dahisar":1399,"Borivali":1499,"Kandivali":1499,"Malad":1499,"Goregaon":1499,"Jogeshwari":1499,"Andheri":1499,"Bandra":1799,"Worli":1799,"Prabhadevi":1799,"Dadar":1799,"Mumbai Central":1799,"Churchgate":2299,"Colaba":2299,"Fort":2299};
 var P_BUG={"1RK":1499,"1BHK":1999,"2BHK":2999,"3BHK":3799};
 var WA="918087407562";
 // Yahan Apps Script ka Web App URL paste karein (admin app me booking dikhane ke liye)
-var ENDPOINT="https://script.google.com/macros/s/AKfycbwJ7CMeRZSrMQCshBmQtBL1G20GnI9pQCiKh__3111R2XNjExHuieIja9aQKCJ3lg7dhg/exec";
+var ENDPOINT="https://script.google.com/macros/s/AKfycbyZcWHW2mFlbnz83nJvG9z5DZO8QcGRl9OYk2yQKsu8g7TNlR6VN2mKjbNooYlUaINBFw/exec";
 function sendAdmin(d){if(!ENDPOINT)return;try{fetch(ENDPOINT,{method:"POST",body:JSON.stringify(d),keepalive:true}).catch(function(){})}catch(e){}}
 var $=function(i){return document.getElementById(i)};
 var purpose=PURPOSES[0][0];
@@ -181,6 +182,7 @@ function info(){
  var s=$('service').value,a=$('area').value,b=$('bhk').value;
  if(s==="Bed Bug Treatment")return [P_BUG[b],'Bed Bug Treatment'];
  if(LOCAL.indexOf(a)>-1)return [P_LOCAL[b],'Local Rate'];
+ if(b==="1RK"&&P_RK[a])return [P_RK[a],'1RK Rate (Area wise)'];
  if(b==="2BHK"&&P_2[a])return [P_2[a],'2BHK Rate (Bhayandar to Colaba)'];
  if(b==="1BHK"&&P_1[a])return [P_1[a],'1BHK Rate (Andheri to Colaba)'];
  if(b==="3BHK"&&P_3[a])return [P_3[a],'3BHK Slab (Bhayandar to Colaba)'];
