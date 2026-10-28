@@ -1,0 +1,25 @@
+{
+ "name": "Om Sai Receipt",
+ "short_name": "OS Receipt",
+ "id": "/receipt.html",
+ "start_url": "/receipt.html",
+ "scope": "/",
+ "display": "standalone",
+ "background_color": "#0A1F44",
+ "theme_color": "#0A1F44",
+ "lang": "hi",
+ "icons": [
+  {
+   "src": "icon-r192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icon-r512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  }
+ ]
+}

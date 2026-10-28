@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0A1F44">
+<link rel="manifest" href="manifest-receipt.json">
+<link rel="icon" href="icon-r192.png">
+<title>Om Sai Receipt</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0f1522;color:#e8ecf5;font-family:Arial,Helvetica,sans-serif}
+.hide{display:none!important}
+.top{position:sticky;top:0;z-index:5;padding:10px 12px;background:#0A1F44;font-weight:800;font-size:18px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.top span{color:#FF6A00}
+.top button{min-height:38px;padding:0 12px;font-size:13px;background:#2a3350;border-radius:10px}
+.form{padding:12px;max-width:560px;margin:0 auto}
+.card{background:#18213a;border-radius:14px;padding:12px;margin-bottom:12px}
+.card h3{margin:0 0 8px;font-size:15px;color:#FF9A4D}
+label{display:block;font-size:12px;color:#9fb0d0;margin:8px 0 3px}
+input,select,textarea{width:100%;min-height:44px;border-radius:10px;border:1px solid #33425f;background:#0f1522;color:#fff;padding:10px;font-size:16px;font-family:inherit}
+textarea{min-height:110px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+button{min-height:50px;border:0;border-radius:12px;font-weight:800;font-size:15px;color:#fff;background:#FF6A00;font-family:inherit}
+button.g{background:#25D366}button.b{background:#2b4a85}button.s{background:#2a3350}
+.hint{font-size:11px;color:#8393b3;margin-top:4px;line-height:1.4}
+.chk{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13px;color:#cfd8ea}
+.chk input{width:22px;min-height:22px;height:22px}
+details summary{cursor:pointer;font-weight:800;color:#FF9A4D;font-size:15px}
+.prevwrap{padding:0 8px 40px;overflow:hidden}
+#scaler{transform-origin:top left;width:760px}
+#toast{position:fixed;left:12px;right:12px;bottom:16px;z-index:20;background:#15803d;color:#fff;border-radius:12px;padding:12px 14px;font-weight:800;text-align:center}
+dialog{background:#18213a;color:#e8ecf5;border:1px solid #33425f;border-radius:14px;padding:12px;width:min(92vw,520px);max-height:80vh}
+dialog::backdrop{background:rgba(0,0,0,.7)}
+.hi{display:flex;justify-content:space-between;gap:8px;width:100%;text-align:left;background:#0f1522;border-radius:10px;padding:10px 12px;margin-top:8px;min-height:0;font-weight:600;font-size:14px}
+.hi small{display:block;color:#8393b3;font-weight:400;margin-top:2px}
+</style>
+<style id="rcss">
+#rc{width:760px;background:#fff;color:#0f2a4d;font-family:Arial,Helvetica,sans-serif;overflow:hidden}
+#rc svg{display:block;flex:none}
+#rc .hd{background:#0f3a68;display:flex;align-items:center;padding:22px 28px;color:#fff;gap:22px}
+#rc .logo{display:flex;align-items:center;gap:10px;padding-right:24px;border-right:1px solid rgba(255,255,255,.4)}
+#rc .lt{line-height:1;text-align:center}
+#rc .lt b{display:block;font:italic 700 46px "Dancing Script","Brush Script MT","Segoe Script",cursive;color:#ff8a1f}
+#rc .lt i{display:block;font-style:normal;letter-spacing:7px;font-size:15px;font-weight:700;margin-top:0}
+#rc .lt small{display:block;font-size:9px;margin-top:5px;opacity:.9;letter-spacing:.5px}
+#rc .hr b{display:block;font-size:19px;letter-spacing:.8px}
+#rc .hr small{display:block;font-size:10.5px;margin-top:9px;letter-spacing:.8px;opacity:.92}
+#rc .mid{display:flex;justify-content:space-between;align-items:center;padding:22px 28px 10px}
+#rc .mid h1{margin:0;font-size:38px;letter-spacing:.5px;color:#0f2a52;line-height:1}
+#rc .bar{width:74px;height:4px;background:#ff6a00;border-radius:2px;margin:5px 0 12px}
+#rc .mid p{margin:0;font-size:15px;color:#123a63;font-weight:700}
+#rc .mid p+p{font-weight:400;font-size:13px;margin-top:3px}
+#rc .meta{border-left:2px solid #d3dcf0;padding-left:18px;font-size:13.5px;min-width:300px}
+#rc .meta div{display:flex;align-items:center;gap:8px;margin:7px 0}
+#rc .meta span{width:112px;color:#123a63}
+#rc .meta b{font-weight:600}
+#rc .cust{margin:10px 28px;background:#e6effb;border-radius:12px;padding:14px 18px;font-size:14px}
+#rc .cust div{display:flex;align-items:flex-start;gap:10px;margin:6px 0}
+#rc .cust span{width:120px;font-weight:700;color:#123a63;padding-top:1px}
+#rc .cust b{font-weight:600;flex:1;white-space:pre-line;line-height:1.35}
+#rc .cust .nm{font-size:17px;font-weight:800}
+#rc .sv{margin:14px 28px;border-radius:12px;overflow:hidden;border:1px solid #c4d3ec}
+#rc .sv .t{background:#0f3a68;color:#fff;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:17px}
+#rc .sv .t em{font-style:normal;font-size:12px;border:1px solid #7da0cf;border-radius:14px;padding:4px 14px;font-weight:600}
+#rc .sv .d{background:#e6effb;padding:10px 18px;font-size:14px;color:#123a63}
+#rc .sv .h{display:flex;justify-content:space-between;padding:8px 18px;font-weight:800;font-size:14px;background:#f3f7fd;border-top:1px solid #c4d3ec}
+#rc .it{display:flex;justify-content:space-between;align-items:center;padding:7px 18px;font-size:14px;border-top:1px solid #e1e8f5;background:#fbfcff}
+#rc .it u{text-decoration:none;display:flex;align-items:center;gap:10px}
+#rc .it s{text-decoration:none;font-size:13px;color:#31405e;white-space:nowrap;padding-left:10px}
+#rc .tot{margin:14px 28px;background:#e6effb;border-radius:12px;padding:8px 10px}
+#rc .tot div{display:flex;justify-content:space-between;padding:7px 10px;font-size:15px;font-weight:700;color:#123a63}
+#rc .tot .bal{background:#0f3a68;color:#fff;border-radius:9px;font-size:17px;margin-top:4px}
+#rc .nt{display:flex;gap:12px;margin:14px 28px}
+#rc .nt .n{flex:1;background:#e6effb;border-radius:12px;padding:12px 16px;font-size:11.5px;color:#123a63}
+#rc .nt .n b{display:flex;align-items:center;gap:8px;font-size:16px;margin-bottom:6px}
+#rc .nt .n div{margin:3px 0;padding-left:12px;position:relative;line-height:1.35}
+#rc .nt .n div:before{content:"\2022";position:absolute;left:0}
+#rc .nt .ty{width:200px;background:#e6effb;border-radius:12px;text-align:center;padding:14px 8px;color:#123a63;font-size:12px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#rc .nt .ty b{display:block;font:italic 700 32px "Dancing Script","Brush Script MT","Segoe Script",cursive;color:#0f2a52;margin-bottom:6px}
+#rc .wv{height:34px;margin-top:14px;position:relative}
+#rc .wv svg{position:absolute;left:0;top:0}
+#rc .ft{background:#0f3a68;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:6px 28px 20px;margin-top:-1px}
+#rc .ft b{font-size:15px;display:block}
+#rc .ft small{font-size:11px;opacity:.88}
+#rc .ft i{font:italic 700 19px "Dancing Script","Brush Script MT","Segoe Script",cursive;color:#d6e4ff}
+#rc .wa{display:flex;gap:14px;align-items:center}
+</style>
+</head>
+<body>
+<div class="top"><div><span>Om Sai</span> Receipt</div><div style="display:flex;gap:6px"><button id="bHist">📂 Purani</button><button id="bNew">➕ Nayi</button></div></div>
+
+<div class="form">
+ <button id="inst" class="hide" style="width:100%;margin-bottom:12px">📲 App install karein (home screen par)</button>
+
+ <div class="card">
+  <h3>1. Customer</h3>
+  <label>Customer ka naam</label><input id="cname" placeholder="Jaise: Mrunali Parab">
+  <label>Mobile number</label><input id="cphone" inputmode="tel" placeholder="9869694443">
+  <label>Poora address</label><textarea id="caddr" style="min-height:80px" placeholder="Building, room, road, area, pincode"></textarea>
+ </div>
+
+ <div class="card">
+  <h3>2. Service</h3>
+  <label>Service ka type (chunte hi neeche list bhar jaayegi, phir badal sakte hain)</label>
+  <select id="stype">
+   <option value="deep">Deep Cleaning</option>
+   <option value="pest">Pest Control</option>
+   <option value="both">Deep Cleaning + Pest Control</option>
+   <option value="custom">Apna khud likhein</option>
+  </select>
+  <div class="row">
+   <div><label>Package ka naam</label><input id="pkg" value="Standard Package"></div>
+   <div><label>Flat size</label><select id="bhk"><option>1 RK</option><option>1 BHK</option><option>2 BHK</option><option>3 BHK</option><option>Office / Shop</option></select></div>
+  </div>
+  <label>Service ki line (receipt me upar dikhegi)</label><input id="sline">
+  <label>Kaam ki list (ek line = ek kaam)</label>
+  <textarea id="items"></textarea>
+  <div class="hint">Kisi line ka alag paisa dikhana ho to aise likhein: <b>Extra balcony cleaning | 300</b>. Bina | ke likhoge to "Included" dikhega.</div>
+ </div>
+
+ <div class="card">
+  <h3>3. Paisa</h3>
+  <div class="row">
+   <div><label>Total amount (₹)</label><input id="total" inputmode="numeric" placeholder="3850"></div>
+   <div><label>Advance / mila hua (₹)</label><input id="adv" inputmode="numeric" placeholder="100"></div>
+  </div>
+  <div class="row">
+   <div><label>Payment method</label><select id="pm"><option>UPI</option><option>Cash</option><option>Online</option><option>Cash + UPI</option></select></div>
+   <div><label>Payment status</label><select id="ps"><option>Advance Paid</option><option>Paid</option><option>Pending</option></select></div>
+  </div>
+  <div class="hint">"Paid" chunoge to poora paisa mila dikhega aur baaki 0 hoga. "Pending" me advance nahi dikhega.</div>
+ </div>
+
+ <div class="card">
+  <h3>4. Date, Receipt No. aur Notes</h3>
+  <div class="row">
+   <div><label>Receipt ki date</label><input id="dt" type="date"></div>
+   <div><label>Receipt No.</label><input id="rno"></div>
+  </div>
+  <div class="row">
+   <div><label>Service ki date (zaruri nahi)</label><input id="sdate" type="date"></div>
+   <div><label>Team me kitne log</label><input id="team" inputmode="numeric" value="3"></div>
+  </div>
+  <label>Important Notes (ek line = ek point)</label>
+  <textarea id="notes"></textarea>
+  <label class="chk"><input type="checkbox" id="autoN" checked> Advance / Baaki paise wali lines apne aap jodein</label>
+ </div>
+
+ <div class="card">
+  <details>
+   <summary>5. Receipt ka header / footer badlein</summary>
+   <label>Header ki badi line</label><input id="hTitle">
+   <label>Header ki chhoti line</label><input id="hTag">
+   <label>Footer me phone number</label><input id="hPhone">
+   <label>Thank You box ki line</label><input id="hThanks">
+  </details>
+ </div>
+
+ <div class="btns">
+  <button class="g" id="bShare">📤 WhatsApp / Share</button>
+  <button class="b" id="bImg">🖼️ Image Download</button>
+  <button class="s" id="bPdf">📄 PDF / Print</button>
+  <button class="s" id="bSave">💾 Save karein</button>
+ </div>
+ <div class="hint" id="msg" style="margin-top:8px"></div>
+</div>
+
+<div class="prevwrap"><div id="scaler"><div id="rc"></div></div></div>
+
+<dialog id="dlg"><b>Purani receipts</b><div id="hl"></div><button class="s" id="hx" style="width:100%;margin-top:10px">Band karein</button></dialog>
+<div id="toast" class="hide"></div>
+
+<script>
+var $=function(i){return document.getElementById(i)};
+var FIELDS=["cname","cphone","caddr","stype","pkg","bhk","sline","items","total","adv","pm","ps","dt","sdate","rno","team","notes","hTitle","hTag","hPhone","hThanks"];
+var DEFAULTS={hTitle:"HOME CLEANING & PEST CONTROL",hTag:"RESIDENTIAL  |  DEEP CLEANING  |  PEST CONTROL",hPhone:"+91 8087407562",hThanks:"For your trust in Om Sai Service!",team:"3",pm:"UPI",ps:"Advance Paid",pkg:"Standard Package"};
+var PRESETS={
+ deep:{line:function(b){return "Standard deep cleaning package for "+b+" furnished flats."},
+  items:function(b){return ["Complete "+b+" deep cleaning","Rooms, bathroom, windows, doors & floor mopping","Kitchen slab & sink cleaning","Exterior cabinet cleaning","Kitchen degreasing","Customer empties and replaces kitchen items"]},
+  notes:["This is our Standard Package.","Items will be handled and arranged by our professional team.","Cupboards, wardrobes and drawers containing personal items (clothes, etc.) will be cleaned from the outside only, not from the inside."]},
+ pest:{line:function(b){return "Pest control treatment for "+b+"."},
+  items:function(b){return ["Cockroach / ant / spider treatment (gel + spray)","Kitchen, bathroom, drain & corners covered","Safe, odourless chemicals","Treatment by trained professional team"]},
+  notes:["This is our Pest Control Package.","Please keep food items and utensils covered before service.","Keep children and pets away from treated areas until dry."]},
+ both:{line:function(b){return "Deep cleaning + pest control combo package for "+b+"."},
+  items:function(b){return ["Complete "+b+" deep cleaning","Rooms, bathroom, windows, doors & floor mopping","Kitchen slab, sink & degreasing","Exterior cabinet cleaning","Pest control treatment (cockroach / ant / spider)","Customer empties and replaces kitchen items"]},
+  notes:["This is our Combo Package.","Items will be handled and arranged by our professional team.","Cupboards, wardrobes and drawers containing personal items will be cleaned from the outside only.","Please keep children and pets away from treated areas until dry."]}
+};
+var PKG={deep:"Standard Package",pest:"Pest Control Package",both:"Combo Package"};
+function pad(n){return n<10?"0"+n:""+n}
+function today(){var d=new Date();return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function num(v){return parseFloat(String(v==null?"":v).replace(/[^0-9.]/g,""))||0}
+function inr(n){return "Rs. "+Number(n||0).toLocaleString("en-IN")}
+function fmtDate(v){if(!v)return"";var p=v.split("-");return p[2]+"/"+p[1]+"/"+p[0]}
+function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+function nextNo(){var n=parseInt(ls("omsai_rno")||"1051",10)+1;return "OS/"+new Date().getFullYear()+"/"+n}
+function bumpNo(){var m=($("rno").value||"").match(/(\d+)$/);if(m&&parseInt(m[1],10)>parseInt(ls("omsai_rno")||"0",10))ls("omsai_rno",m[1])}
+function toast(t){var e=$("toast");e.textContent=t;e.classList.remove("hide");clearTimeout(toast.t);toast.t=setTimeout(function(){e.classList.add("hide")},3500)}
+function say(t){$("msg").textContent=t}
+
+/* ---------- icons ---------- */
+function ic(n,s){
+ s=s||18;var o='<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="#123a63" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">';
+ var p={
+  cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  doc:'<path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h7M9 8h3"/>',
+  rup:'<circle cx="12" cy="12" r="9.5"/><path d="M8.5 8h7M8.5 11h7M8.5 8c4.5 0 4.5 5 0 5l5 4"/>',
+  chk:'<circle cx="12" cy="12" r="10" fill="#123a63" stroke="none"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2.2"/>',
+  usr:'<circle cx="12" cy="12" r="10.5"/><circle cx="12" cy="9.5" r="3"/><path d="M6.5 18.5c1-3 3-4 5.5-4s4.5 1 5.5 4"/>',
+  pin:'<circle cx="12" cy="12" r="10.5"/><path d="M12 18s-4.5-4-4.5-7.5a4.5 4.5 0 019 0C16.5 14 12 18 12 18z"/><circle cx="12" cy="10.5" r="1.6"/>',
+  tel:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z" fill="#123a63" stroke="none"/>',
+  inf:'<circle cx="12" cy="12" r="10" fill="#123a63" stroke="none"/><path d="M12 11v6M12 7.3v.6" stroke="#fff" stroke-width="2.4"/>',
+  tick:'<circle cx="12" cy="12" r="11" fill="#ff7a1a" stroke="none"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2.6"/>'
+ };
+ return o+p[n]+'</svg>';
+}
+var LOTUS='<svg width="66" height="58" viewBox="0 0 66 58" fill="none" stroke="#ff8a1f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M33 49C24 43 22 28 33 11c11 17 9 32 0 38z"/><path d="M33 49C19 48 9 38 6 24c13 1 23 10 27 25z"/><path d="M33 49c14-1 24-11 27-25-13 1-23 10-27 25z"/><path d="M20 53c8 3 18 3 26 0" /><text x="33" y="39" text-anchor="middle" font-size="16" fill="#ff8a1f" stroke="none" font-family="Arial,sans-serif">&#2384;</text></svg>';
+var LOTUS_S='<svg width="46" height="22" viewBox="0 0 46 22" fill="none" stroke="#ff8a1f" stroke-width="1.8" stroke-linecap="round"><path d="M23 19C18 16 17 9 23 2c6 7 5 14 0 17z"/><path d="M23 19c-7 0-12-5-13-11 6 1 11 4 13 11z"/><path d="M23 19c7 0 12-5 13-11-6 1-11 4-13 11z"/></svg>';
+var WA='<svg width="46" height="46" viewBox="0 0 46 46"><circle cx="23" cy="23" r="22" fill="#25d366"/><path d="M13.5 32.5l1.5-5.2A10.2 10.2 0 1119 31.3z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><path d="M19.2 18.2c.5 3.6 3.6 6.7 7.2 7.4l1.7-1.7-2.7-1.4-1.1 1c-1.4-.5-2.8-1.9-3.3-3.3l1-1.1-1.3-2.6z" fill="#fff"/></svg>';
+var WAVE='<svg width="760" height="34" viewBox="0 0 760 34"><path d="M0 24C200 4 480 40 760 8V34H0z" fill="#0f3a68"/><path d="M0 24C200 4 480 40 760 8" fill="none" stroke="#ff7a1a" stroke-width="3.5"/></svg>';
+
+/* ---------- state ---------- */
+function getState(){var s={};FIELDS.forEach(function(i){s[i]=$(i).value});s.autoN=$("autoN").checked;return s}
+function setState(s){FIELDS.forEach(function(i){if(s[i]!=null)$(i).value=s[i]});$("autoN").checked=s.autoN!==false;render()}
+function applyPreset(){
+ var t=$("stype").value;if(t==="custom")return;var p=PRESETS[t],b=$("bhk").value,bs=b==="Office / Shop"?"office / shop":b.replace(" ","");
+ $("pkg").value=PKG[t];$("sline").value=p.line(b);$("items").value=p.items(bs).join("\n");$("notes").value=p.notes.join("\n");render();
+}
+
+/* ---------- receipt ---------- */
+function render(){
+ var tot=num($("total").value),adv=num($("adv").value),ps=$("ps").value,paid,bal;
+ if(ps==="Paid"){paid=tot;bal=0}else if(ps==="Pending"){paid=0;bal=tot}else{paid=Math.min(adv,tot||adv);bal=Math.max(tot-paid,0)}
+ var team=$("team").value||"3",sd=fmtDate($("sdate").value);
+ var items=$("items").value.split("\n").filter(function(x){return x.trim()}).map(function(l){
+  var a=l.split("|"),amt=a.slice(1).join("|").trim();
+  return '<div class="it"><u>'+ic("tick",20)+esc(a[0].trim())+'</u><s>'+(amt?(/^[\d,.\s]+$/.test(amt)?inr(num(amt)):esc(amt)):"Included")+'</s></div>'}).join("");
+ var notes=$("notes").value.split("\n").filter(function(x){return x.trim()}).map(esc);
+ if($("autoN").checked){
+  if(ps==="Paid")notes.push("Full payment of "+inr(tot)+" has been received.");
+  else{if(paid>0)notes.push("Advance of "+inr(paid)+" has been paid.");
+   if(bal>0)notes.push("Balance "+inr(bal)+" to be paid after service completion.")}
+  notes.push("Our team of "+esc(team)+" members will arrive "+(sd?"on "+esc(sd)+".":"on the service date."));
+ }
+ var meta='<div>'+ic("cal")+'<span>Date</span><b>: '+esc(fmtDate($("dt").value))+'</b></div>'+
+  '<div>'+ic("doc")+'<span>Receipt No.</span><b>: '+esc($("rno").value)+'</b></div>'+
+  (sd?'<div>'+ic("cal")+'<span>Service Date</span><b>: '+esc(sd)+'</b></div>':'')+
+  '<div>'+ic("rup")+'<span>Payment Method</span><b>: '+esc($("pm").value)+'</b></div>'+
+  '<div>'+ic("chk")+'<span>Payment Status</span><b>: '+esc(ps)+'</b></div>';
+ var rows='<div><span>Total Amount</span><span>'+inr(tot)+'</span></div>';
+ if(ps==="Paid")rows+='<div><span>Amount Paid</span><span>'+inr(paid)+'</span></div>';
+ else if(ps==="Advance Paid")rows+='<div><span>Advance Paid</span><span>'+inr(paid)+'</span></div>';
+ var T=esc($("hTitle").value).replace(/&amp;/g,"&amp;");
+ $("rc").innerHTML=
+ '<div class="hd"><div class="logo">'+LOTUS+'<div class="lt"><b>Om Sai</b><i>SERVICE</i><small>Clean Spaces &#8226; Happy Homes</small></div></div>'+
+ '<div class="hr"><b>'+T+'</b><small>'+esc($("hTag").value).replace(/  /g," &nbsp; ")+'</small></div></div>'+
+ '<div class="mid"><div><h1>RECEIPT</h1><div class="bar"></div><p>Thank you for choosing Om Sai Service!</p><p>Your trust motivates us to serve you better.</p></div><div class="meta">'+meta+'</div></div>'+
+ '<div class="cust"><div>'+ic("usr",22)+'<span>Customer Name</span><b class="nm">: '+esc($("cname").value)+'</b></div><div>'+ic("pin",22)+'<span>Address</span><b>: '+esc($("caddr").value)+'</b></div><div>'+ic("tel",22)+'<span>Customer No.</span><b>: '+esc($("cphone").value)+'</b></div></div>'+
+ '<div class="sv"><div class="t">Service Details<em>'+esc($("pkg").value)+'</em></div><div class="d">'+esc($("sline").value)+'</div><div class="h"><span>Description</span><span>Amount</span></div>'+items+'</div>'+
+ '<div class="tot">'+rows+'<div class="bal"><span>Balance Payable</span><span>'+inr(bal)+'</span></div></div>'+
+ '<div class="nt"><div class="n"><b>'+ic("inf",20)+'Important Notes</b>'+notes.map(function(n){return"<div>"+n+"</div>"}).join("")+'</div><div class="ty"><b>Thank You!</b>'+esc($("hThanks").value)+'<div style="margin-top:8px">'+LOTUS_S+'</div></div></div>'+
+ '<div class="wv">'+WAVE+'</div>'+
+ '<div class="ft"><div class="wa">'+WA+'<div><b>Call / WhatsApp: '+esc($("hPhone").value)+'</b><small>For any queries, feel free to contact us.</small></div></div><i>Clean Spaces &#8226; Happy Homes</i></div>';
+ fit();
+ ls("omsai_rdraft",JSON.stringify(getState()));
+}
+function fit(){var w=Math.min(window.innerWidth-16,760),s=w/760;$("scaler").style.transform="scale("+s+")";$("scaler").parentNode.style.height=(($("rc").offsetHeight)*s+10)+"px"}
+window.addEventListener("resize",fit);
+FIELDS.concat(["autoN"]).forEach(function(i){$(i).addEventListener("input",render);$(i).addEventListener("change",render)});
+$("stype").onchange=applyPreset;$("bhk").onchange=function(){if($("stype").value!=="custom")applyPreset()};
+
+/* ---------- image (bina kisi library ke) ---------- */
+function snap(){
+ return new Promise(function(res,rej){
+  var el=$("rc"),w=760,h=el.offsetHeight;
+  var cl=el.cloneNode(true);
+  var wrap=document.createElement("div");wrap.setAttribute("xmlns","http://www.w3.org/1999/xhtml");
+  var st=document.createElement("style");st.textContent=$("rcss").textContent;wrap.appendChild(st);wrap.appendChild(cl);
+  var xml=new XMLSerializer().serializeToString(wrap);
+  var svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'"><foreignObject x="0" y="0" width="'+w+'" height="'+h+'">'+xml+'</foreignObject></svg>';
+  var img=new Image();
+  img.onload=function(){
+   var c=document.createElement("canvas");c.width=w*2;c.height=h*2;var x=c.getContext("2d");
+   x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.scale(2,2);x.drawImage(img,0,0,w,h);
+   c.toBlob(function(b){b?res(b):rej(new Error("blob"))},"image/png");
+  };
+  img.onerror=function(){rej(new Error("img"))};
+  img.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg);
+ });
+}
+function fname(){return "OmSai_Receipt_"+(($("cname").value||"Customer").replace(/[^A-Za-z0-9]+/g,"_"))+"_"+($("rno").value.replace(/[^0-9]/g,"")||"")+".png"}
+function needName(){if(!$("cname").value.trim()){say("Pehle customer ka naam likhein.");toast("Customer ka naam likhein");return true}return false}
+
+/* ---------- history (delete nahi hota) ---------- */
+function hist(){try{return JSON.parse(ls("omsai_rhist")||"[]")}catch(e){return[]}}
+function saveHist(){
+ var s=getState();if(!s.cname.trim())return false;
+ var h=hist().filter(function(x){return x.rno!==s.rno});s.saved=Date.now();h.unshift(s);
+ ls("omsai_rhist",JSON.stringify(h.slice(0,300)));bumpNo();return true;
+}
+function showHist(){
+ var h=hist(),b=$("hl");
+ b.innerHTML=h.length?"":'<div class="hint" style="margin-top:8px">Abhi koi receipt save nahi hui.</div>';
+ h.forEach(function(s,i){
+  var t=num(s.total),bt=document.createElement("button");bt.className="hi s";
+  bt.innerHTML='<span>'+esc(s.cname)+'<small>'+esc(s.rno)+' • '+esc(fmtDate(s.dt))+'</small></span><span>'+inr(t)+'</span>';
+  bt.onclick=function(){saveHist();setState(s);$("dlg").close();window.scrollTo(0,0);toast("Receipt khul gayi")};
+  b.appendChild(bt);
+ });
+ $("dlg").showModal();
+}
+$("bHist").onclick=showHist;$("hx").onclick=function(){$("dlg").close()};
+$("bSave").onclick=function(){if(needName())return;saveHist();say("✔ Receipt save ho gayi.");toast("✔ Save ho gayi")};
+$("bNew").onclick=function(){
+ saveHist();
+ FIELDS.forEach(function(i){if(DEFAULTS[i]!=null)$(i).value=DEFAULTS[i]});
+ ["cname","cphone","caddr","total","adv","sdate"].forEach(function(i){$(i).value=""});
+ $("stype").value="deep";$("bhk").value="1 RK";$("autoN").checked=true;
+ $("rno").value=nextNo();$("dt").value=today();applyPreset();window.scrollTo(0,0);toast("Nayi receipt taiyaar");
+};
+
+/* ---------- buttons ---------- */
+$("bImg").onclick=function(){
+ if(needName())return;say("Image ban rahi hai...");
+ snap().then(function(b){var a=document.createElement("a");a.download=fname();a.href=URL.createObjectURL(b);document.body.appendChild(a);a.click();a.remove();saveHist();say("✔ Image download ho gayi (Downloads me).")}).catch(function(){say("Image nahi ban paayi, PDF / Print try karein.")});
+};
+$("bShare").onclick=function(){
+ if(needName())return;say("Taiyaar ho raha hai...");
+ snap().then(function(b){
+  var f=new File([b],fname(),{type:"image/png"});saveHist();
+  if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:"Om Sai Service Receipt"}).then(function(){say("✔ Bhej diya.")}).catch(function(){say("Share cancel hua.")})}
+  else{var a=document.createElement("a");a.download=fname();a.href=URL.createObjectURL(b);document.body.appendChild(a);a.click();a.remove();say("Share is phone me nahi chala, image download ho gayi. WhatsApp me jaakar bhejein.")}
+ }).catch(function(){say("Nahi ban paaya, PDF / Print try karein.")});
+};
+$("bPdf").onclick=function(){if(needName())return;saveHist();window.print()};
+var st=document.createElement("style");
+st.textContent="@media print{body{background:#fff}.top,.form,#toast,dialog{display:none!important}.prevwrap{padding:0;height:auto!important;overflow:visible}#scaler{transform:none!important}@page{margin:0;size:A4}#rc{zoom:.99;-webkit-print-color-adjust:exact;print-color-adjust:exact}}";
+document.head.appendChild(st);
+
+/* ---------- app install ---------- */
+var dip=null;
+window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dip=e;if(!(window.matchMedia&&matchMedia("(display-mode: standalone)").matches))$("inst").classList.remove("hide")});
+window.addEventListener("appinstalled",function(){$("inst").classList.add("hide");toast("App install ho gaya ✔")});
+$("inst").onclick=function(){if(dip){dip.prompt();dip=null;$("inst").classList.add("hide")}};
+try{if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js")}catch(e){}
+
+/* ---------- start ---------- */
+FIELDS.forEach(function(i){if(DEFAULTS[i]!=null)$(i).value=DEFAULTS[i]});
+var dr=null;try{dr=JSON.parse(ls("omsai_rdraft")||"null")}catch(e){}
+if(dr&&dr.rno){setState(dr)}else{$("dt").value=today();$("rno").value=nextNo();applyPreset()}
+</script>
+</body>
+</html>
